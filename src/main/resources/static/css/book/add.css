@@ -38,3 +38,10 @@
   cursor: pointer;
   opacity: 0.6;
 }
+
+.error-msg {
+  color: red;           /* 文字の色を赤に */
+  font-size: 12px;      /* 文字サイズを12pxに */
+  font-weight: normal;  /* 太さを通常に */
+  margin-top: 5px;      /* メッセージの上部に少しスペースを */
+}

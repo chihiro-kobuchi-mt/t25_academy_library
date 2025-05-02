@@ -21,9 +21,9 @@
                 <dr>
                     <div style="float: right;">
                         <a th:href="@{/book/add}">
-
-                            <button class="green-button">＋書籍登録</button>
-
+                            <button class="green-button"><img th:src="@{/images/icons/add.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">
+                           書籍登録</button>
+                        
                         </a>
                     </div>
 
@@ -39,10 +39,21 @@
                         </thead>
                         <tbody>
                             <tr th:each="book : ${bookMstList}">
-                                <td th:text="${book.title}">書籍タイトル</td>
+                                <td>
+                                      <!-- 編集ボタン -->
+                                      <img th:src="@{/images/icons/edit.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">
+                                
+                                      <!-- 削除ボタン -->
+                                      <img th:src="@{/images/icons/trash.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">
+                                      
+                                    
+                                 <span th:text="${book.title}">書籍タイトル</span>
+                                 </td>
+                                
                                 <td th:text="${book.isbn}">ISBNコード</td>
                             </tr>
                         </tbody>
+                    
 
 
                     </table>

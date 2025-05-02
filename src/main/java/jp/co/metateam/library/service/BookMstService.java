@@ -58,10 +58,7 @@ public class BookMstService {
             bookMst.setTitle(bookMstDto.getTitle());
             bookMst.setIsbn(bookMstDto.getIsbn());
             
-           /// bookMst.setEmployeeId(accountDto.getEmployeeId());
-           /// bookMst.setAuthorizationType(accountDto.getAuthorizationType());
-           ////bookMst.setPasbosword(this.passwordEncoder.encode(accountDto.getPassword())); // パスワードをハッシュ化してから保存
-           ///bookMst.setEmail(accountDto.getEmail());
+           
 
             // データベースへの保存
             this.bookMstRepository.save(bookMst);
