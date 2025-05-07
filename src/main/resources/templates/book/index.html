@@ -21,13 +21,12 @@
                 <dr>
                     <div style="float: right;">
                         <a th:href="@{/book/add}">
-                            <button
-                                style="background-color: green; color: white; border: none; padding: 10px 20px; cursor: pointer;">+
-                                書籍登録</button>
+                            <button class="green-button"><img th:src="@{/images/icons/add.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">
+                           書籍登録</button>
+                        
                         </a>
                     </div>
-
-                    <span style="color: gray;">書籍一覧</span>
+                     <span class="gray-title">書籍一覧</span>
 
 
                     <table class="books_table">
@@ -39,10 +38,22 @@
                         </thead>
                         <tbody>
                             <tr th:each="book : ${bookMstList}">
-                                <td th:text="${book.title}">書籍タイトル</td>
+                                <td>
+                                      <!-- 編集ボタン -->
+                                      <a th:href="@{/book/edit}">
+                                      <img th:src="@{/images/icons/edit.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;" ></a>
+                                
+                                      <!-- 削除ボタン -->
+                                      <img th:src="@{/images/icons/trash.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">
+                                      
+                                    
+                                 <span th:text="${book.title}">書籍タイトル</span>
+                                 </td>
+                                
                                 <td th:text="${book.isbn}">ISBNコード</td>
                             </tr>
                         </tbody>
+                    
 
 
                     </table>

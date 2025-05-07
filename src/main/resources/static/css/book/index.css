@@ -22,11 +22,11 @@
   background: #FFFFFF;
   border: solid 1px #B9B9B9;
   padding: 13px;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .books_table td:nth-child(1){
-  width: 70%;
+  width: 100%;
 }
 
 .books_table td:nth-child(1) .book_title_contents{
@@ -62,5 +62,21 @@
 
 .books_table td a{
   color: #0000EE;
+}
+
+.green-button {
+  background-color: #7ccd7c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.gray-title {
+  color: gray;
+  font-size: 16px; /* お好みで大きさを調整 */
+  font-weight: bold; 
+  margin-left: 90px; 
+  
 }
 

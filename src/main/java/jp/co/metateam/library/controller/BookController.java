@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
@@ -50,88 +51,74 @@ public class BookController {
         if (!model.containsAttribute("bookMstDto")) {
             model.addAttribute("bookMstDto", new BookMstDto());
         }
-
         return "book/add";// 書籍登録画面
     }
 
     // ここから作成
     @PostMapping("/book/add")
-    public String addbook(@Valid @ModelAttribute BookMstDto bookMstDto, BindingResult result, RedirectAttributes ra) {
+    public String addbook(@Valid @ModelAttribute BookMstDto bookMstDto, BindingResult result, RedirectAttributes ra,Model model) {
            
      boolean errTitleFlg = false;
      boolean errIsbnFlg = false;
             
             List<String> errorMessages = new ArrayList<>();  // エラーメッセージのリスト
 
+            
+
             if (bookMstDto.getTitle() == null || bookMstDto.getTitle().isEmpty()) {
-                errorMessages.add("書籍名は必須です。");
+                errorMessages.add("書籍名は必須です");
                 errTitleFlg = true; // 書籍名が未入力の場合、エラーフラグを立てる
-                // result.rejectValue("title", "error.required", "書籍名は必須です");
-                //System.out.println("書籍名は必須です");
-            }
-        
-            if (bookMstDto.getIsbn() == null || bookMstDto.getIsbn().isEmpty()) {
-                errorMessages.add("ISBNは必須です");
-                errIsbnFlg = true;// ISBNが未入力の場合、エラーフラグを立てる
-                // result.rejectValue("isbn", "error.required", "ISBNは必須です");
-                //System.out.println("ISBNは必須です");
             }
 
-           // 書籍名が256文字以上の場合、エラーフラグを立てる
+            // 書籍名が256文字以上の場合、エラーフラグを立てる
             if (bookMstDto.getTitle().length() > 256) {
                 errorMessages.add("書籍名は256文字以内で入力してください");
                 errTitleFlg = true;
-                // result.rejectValue("title", "error.maxlength", "書籍名は256文字以内で入力してください");
-                //System.out.println("書籍名は255文字以内で入力してください");
             }
 
+    
+            if (bookMstDto.getIsbn() == null || bookMstDto.getIsbn().isEmpty()) {
+                errorMessages.add("ISBNは必須です");
+                errIsbnFlg = true;// ISBNが未入力の場合、エラーフラグを立てる
 
-            if (bookMstDto.getIsbn().length() != 13) {
+            
+            }else {
+           
+                if (bookMstDto.getIsbn().length() != 13) {
                 errorMessages.add("ISBNは13桁で入力してください");
                 errIsbnFlg = true;  // ISBNが13桁でない場合、エラーフラグを立てる
-                // result.rejectValue("isbn", "error.length", "ISBNは13桁で入力してください");
-                //System.out.println("ISBNは13桁で入力してください");
-            }
+                }
 
-            if (!bookMstDto.getIsbn().matches("[0-9]+")) {
+                if (!bookMstDto.getIsbn().matches("[0-9]+")) {
                 errorMessages.add("ISBNは半角数字で入力してください");
                 errIsbnFlg = true;  // ISBNが半角数字以外を含んでいる場合、エラーフラグを立てる
-                // result.rejectValue("isbn", "error.format", "ISBNは半角数字で入力してください");
-                //System.out.println("ISBNは半角数字で入力してください");
-            }
-
-            if (errTitleFlg || errIsbnFlg) {
-                ra.addFlashAttribute("errorMessages", errorMessages);  
-             return "redirect:/book/add";  // エラーがある場合、フォーム画面にリダイレクト
- 
-             }
-
-            // もしISBNがすでに存在している場合、エラーを返す
-        if (!errIsbnFlg) {
-          BookMst isbnExist = this.bookMstService.selectByIsbn(bookMstDto.getIsbn());
-            if (isbnExist != null) {
-               errorMessages.add("登録済みのISBNです");
-                errIsbnFlg = true;
-            }
-            // result.rejectValue("isbn", "error.exists", "登録済みのISBNです");
+                 }
             
- 
-    // エラーがあれば、エラーメッセージリストをフラッシュ属性に渡す
-            if (errTitleFlg || errIsbnFlg) {
-               ra.addFlashAttribute("errorMessages", errorMessages);  
-            return "redirect:/book/add";  // エラーがある場合、フォーム画面にリダイレクト
 
+            if (!errIsbnFlg) {
+                BookMst isbnExist = this.bookMstService.selectByIsbn(bookMstDto.getIsbn());
+                  if (isbnExist != null) {
+                     errorMessages.add("登録済みのISBNです");
+                     errIsbnFlg = true;
+                  }
+                }
             }
+            
+
+            if (errTitleFlg || errIsbnFlg) {
+                model.addAttribute("errorMessages", errorMessages);
+                model.addAttribute("bookMstDto", bookMstDto);  // 入力済みの値を戻す
+                return "book/add";  // リダイレクトではなく、直接テンプレート名を返す
+            }
+
+             
+
+            
 
         bookMstService .save (bookMstDto); 
 
 
-        // 登録成功メッセージを設定して、一覧画面にリダイレクト
-        ra.addFlashAttribute("message", "書籍が正常に登録されました");
-        return "redirect:/book/index";
-
-            
-        }                
+                       
 
     return "redirect:/book/add";
     }
