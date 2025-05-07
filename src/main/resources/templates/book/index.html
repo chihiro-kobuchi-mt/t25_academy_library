@@ -26,8 +26,7 @@
                         
                         </a>
                     </div>
-
-                    <span class="gray-title">書籍一覧</span>
+                     <span class="gray-title">書籍一覧</span>
 
 
                     <table class="books_table">
@@ -41,7 +40,8 @@
                             <tr th:each="book : ${bookMstList}">
                                 <td>
                                       <!-- 編集ボタン -->
-                                      <img th:src="@{/images/icons/edit.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">
+                                      <a th:href="@{/book/edit}">
+                                      <img th:src="@{/images/icons/edit.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;" ></a>
                                 
                                       <!-- 削除ボタン -->
                                       <img th:src="@{/images/icons/trash.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">
